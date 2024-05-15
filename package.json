@@ -1,12 +1,14 @@
 {
   "name": "context-copy-file-contents",
   "displayName": "Context Copy File Contents",
-  "description": "Right click a folder and copy all ts and js file contents into clipboard",
+  "description": "Right click a folder and copy all file contents into clipboard",
+  "publisher": "NextGen Solutions",
+  "icon": "assets/next-gen-logo.png",
   "author": {
     "name": "Igor Szyporyn",
     "email": "igor.szyporyn@gmail.com"
   },
-  "version": "0.0.6",
+  "version": "1.0.0",
   "repository": {
     "url": "https://github.com/igorjorgensen/vsc-context-copy-file-contents"
   },
@@ -68,14 +70,12 @@
     "check-types": "tsc --noEmit",
     "lint": "eslint src --ext ts",
     "test": "vscode-test",
-    "copy-content": "ts-node ./tools/copy-content.ts ./src",
     "pack": "npm install && npm run compile && vsce package --out .extensions",
     "vsc-install": "ts-node ./tools/vsc-install.ts .extensions"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
     "@types/node": "18.x",
-    "@types/semver": "^7.5.8",
     "@types/vscode": "^1.89.0",
     "@typescript-eslint/eslint-plugin": "^7.7.1",
     "@typescript-eslint/parser": "^7.7.1",
