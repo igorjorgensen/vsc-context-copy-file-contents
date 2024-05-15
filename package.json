@@ -2,6 +2,10 @@
   "name": "context-copy-file-contents",
   "displayName": "Context Copy File Contents",
   "description": "Right click a folder and copy all ts and js file contents into clipboard",
+  "author": {
+    "name": "Igor Szyporyn",
+    "email": "igor.szyporyn@gmail.com"
+  },
   "version": "0.0.6",
   "repository": {
     "url": "https://github.com/igorjorgensen/vsc-context-copy-file-contents"
