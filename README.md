@@ -1,90 +1,99 @@
 # Context Copy File Contents
 
-Right click a folder in the explorer and copy the content of all TypeScript and JavaScript files within that folder to the clipboard.
+## Description
+
+The **Context Copy File Contents** extension for Visual Studio Code allows you to right-click a folder and copy the contents of all `.ts`, `.js`, `.jsx`, and `.tsx` files within that folder into the clipboard. The content is prefixed with the relative file path from the selected folder.
 
 ## Features
 
-- Adds a context menu item to folders in the VSCode explorer.
-- Copies the content of all `.ts` and `.js` files in the selected folder to the clipboard.
-- Each file's content is prefixed with a comment indicating its path.
+- Right-click on a folder in the VS Code Explorer and select "Copy File Contents To Clipboard" to copy the contents of all relevant files in the folder to the clipboard.
+- Configurable file extensions to specify which file types to include when copying content.
 
 ## Installation
 
-1. **Install from VSCode Marketplace**
+1. Download and install the extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/).
+2. Alternatively, you can clone the repository and build the extension yourself.
 
-   - Search for `Context Copy File Contents` in the Extensions view (Ctrl+Shift+X).
-   - Click Install.
+## Configuration
 
-2. **Build and Install from Source**
-   - Clone this repository:
-     'git clone https://github.com/igorjorgensen/vsc-context-copy-file-contents'
-   - Navigate to the extension directory:
-     'cd vsc-context-copy-file-contents'
-   - Install dependencies:
-     'npm install'
-   - Compile the extension:
-     'npm run compile'
-   - Open the extension in VSCode:
-     'code .'
-   - Press `F5` to run the extension in a new VSCode window.
+You can configure the file extensions to include when copying folder contents. The default extensions are `.js`, `.ts`, `.jsx`, and `.tsx`.
+
+To change the configuration:
+
+1. Open VS Code settings (`Ctrl + ,` or `Cmd + ,`).
+2. Search for `Copy Folder Content`.
+3. Modify the `File Extensions` setting to include the extensions you want.
 
 ## Usage
 
-1. Right-click on any folder in the VSCode explorer.
-2. Select `Copy content to clipboard` from the context menu.
-3. The content of all `.ts` and `.js` files in the selected folder will be copied to your clipboard.
+1. Right-click on a folder in the VS Code Explorer.
+2. Select `Copy File Contents To Clipboard`.
+3. The content of all files with the specified extensions in the selected folder will be copied to the clipboard, prefixed with their relative paths.
+
+## Example
+
+Given a folder structure:
+
+```
+src/
+├── john/
+│ └── peter.ts
+└── jane/
+└── doe.js
+```
+
+If you right-click on the `src` folder and select `Copy File Contents To Clipboard`, the clipboard content will be:
+
+```
+// john/peter.ts
+// [Content of peter.ts]
+
+// jane/doe.js
+// [Content of doe.js]
+```
 
 ## Development
 
-### Prerequisites
-
-- Node.js
-- npm
-
-### Setup
+To build and install the extension locally:
 
 1. Clone the repository:
-   'git clone https://github.com/igorjorgensen/vsc-context-copy-file-contents'
-2. Navigate to the extension directory:
-   'cd vsc-context-copy-file-contents'
-3. Install dependencies:
-   'npm install'
 
-### Build
+   ```sh
+   git clone https://github.com/igorjorgensen/vsc-context-copy-file-contents.git
+   cd vsc-context-copy-file-contents
+   ```
 
-- Compile the extension:
-  'npm run compile'
+2. Install dependencies:
 
-### Run
+   ```sh
+   npm install
+   ```
 
-- Open the extension in VSCode:
-  'code .'
-- Press `F5` to open a new VSCode window with the extension loaded.
+3. Compile the extension:
+
+   ```sh
+   npm run compile
+   ```
+
+4. Package the extension:
+
+   ```sh
+   npm run package
+   ```
+
+5. Install the extension:
+   ```sh
+   code --install-extension ./<your-extension-name>.vsix
+   ```
 
 ## Contributing
 
-Feel free to submit issues and pull requests.
+Contributions are welcome! Please open an issue or submit a pull request with your changes.
 
 ## License
 
-MIT
+This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## Author
+## Repository
 
-Igor Jorgensen
-
----
-
-### Example
-
-Here's a quick example of what the output might look like when copying the content of files from a folder:
-
-'
-// path/to/file1.ts
-console.log('File 1');
-
-// path/to/file2.js
-console.log('File 2');
-'
-
-This output will be copied to your clipboard when you use the `Copy content to clipboard` option.
+[GitHub Repository](https://github.com/igorjorgensen/vsc-context-copy-file-contents)

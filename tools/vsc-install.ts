@@ -1,7 +1,6 @@
-import { exec } from 'child_process';
-import * as path from 'path';
-import * as fs from 'fs';
-import * as semver from 'semver';
+import { exec } from "child_process";
+import * as path from "path";
+import * as fs from "fs";
 
 // Function to recursively get all VSIX files in a directory
 function getVSIXFiles(dir: string, filesList: string[] = []): string[] {
@@ -10,11 +9,35 @@ function getVSIXFiles(dir: string, filesList: string[] = []): string[] {
     const filePath = path.join(dir, file);
     if (fs.statSync(filePath).isDirectory()) {
       getVSIXFiles(filePath, filesList);
-    } else if (file.endsWith('.vsix')) {
+    } else if (file.endsWith(".vsix")) {
       filesList.push(filePath);
     }
   });
   return filesList;
+}
+
+// Function to compare two version strings
+function compareVersions(version1: string, version2: string): number {
+  const v1Parts = version1.split(".").map(Number);
+  const v2Parts = version2.split(".").map(Number);
+
+  for (let i = 0; i < Math.max(v1Parts.length, v2Parts.length); i++) {
+    const v1 = v1Parts[i] || 0;
+    const v2 = v2Parts[i] || 0;
+    if (v1 > v2) {
+      return 1;
+    }
+    if (v1 < v2) {
+      return -1;
+    }
+  }
+  return 0;
+}
+
+// Function to get the version from a filename
+function getVersionFromFilename(filename: string): string | null {
+  const match = filename.match(/^(.+?)-(\d+\.\d+\.\d+)\.vsix$/);
+  return match ? match[2] : null;
 }
 
 // Function to get the highest versioned VSIX files for each namespace
@@ -28,9 +51,14 @@ function getHighestVersionVSIXFiles(files: string[]): string[] {
       const namespace = match[1];
       const version = match[2];
 
+      const existingFile = namespaceToFile[namespace];
+      const existingVersion = existingFile
+        ? getVersionFromFilename(path.basename(existingFile))
+        : null;
+
       if (
-        !namespaceToFile[namespace] ||
-        semver.gt(version, namespaceToFile[namespace])
+        !existingFile ||
+        (existingVersion && compareVersions(version, existingVersion) > 0)
       ) {
         namespaceToFile[namespace] = file;
       }
@@ -58,7 +86,7 @@ function installVSIX(vsixPath: string) {
 // Main script
 function main() {
   const args = process.argv.slice(2);
-  const relativeDir = args[0] || '.extensions';
+  const relativeDir = args[0] || ".extensions";
   const extensionsDir = path.resolve(process.cwd(), relativeDir);
 
   console.log(`VSC Extensions Installer\n`);
@@ -68,7 +96,7 @@ function main() {
     !fs.statSync(extensionsDir).isDirectory()
   ) {
     console.error(
-      `The directory "${extensionsDir}" does not exist or is not a directory.`,
+      `The directory "${extensionsDir}" does not exist or is not a directory.`
     );
     process.exit(1);
   }
@@ -77,7 +105,7 @@ function main() {
   const highestVersionVSIXFiles = getHighestVersionVSIXFiles(vsixFiles);
 
   if (highestVersionVSIXFiles.length === 0) {
-    console.log('No VSIX files found to install.');
+    console.log("No VSIX files found to install.");
     return;
   }
 

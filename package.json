@@ -2,10 +2,11 @@
   "name": "context-copy-file-contents",
   "displayName": "Context Copy File Contents",
   "description": "Right click a folder and copy all ts and js file contents into clipboard",
-  "version": "0.0.1",
+  "version": "0.0.6",
   "repository": {
     "url": "https://github.com/igorjorgensen/vsc-context-copy-file-contents"
   },
+  "license": "MIT",
   "engines": {
     "vscode": "^1.89.0"
   },
@@ -13,22 +14,41 @@
     "Other"
   ],
   "activationEvents": [],
-  "main": "./out/extension.js",
+  "main": "./dist/extension.js",
   "contributes": {
     "commands": [
       {
         "command": "extension.copyFolderContent",
-        "title": "Copy content to clipboard"
+        "title": "Copy File Contents To Clipboard"
       }
     ],
     "menus": {
       "explorer/context": [
         {
           "command": "extension.copyFolderContent",
-          "when": "resourceLangId == typescript || resourceLangId == javascript",
-          "group": "navigation"
+          "when": "explorerResourceIsFolder == true",
+          "group": "1_cutcopypaste@-1"
         }
       ]
+    },
+    "configuration": {
+      "type": "object",
+      "title": "Copy Folder Content Configuration",
+      "properties": {
+        "copyFolderContent.fileExtensions": {
+          "type": "array",
+          "items": {
+            "type": "string"
+          },
+          "default": [
+            ".js",
+            ".ts",
+            ".jsx",
+            ".tsx"
+          ],
+          "description": "File extensions to include when copying folder contents."
+        }
+      }
     }
   },
   "scripts": {
@@ -45,7 +65,8 @@
     "lint": "eslint src --ext ts",
     "test": "vscode-test",
     "copy-content": "ts-node ./tools/copy-content.ts ./src",
-    "pack": "npm install && npm run compile && vsce package --out .extensions"
+    "pack": "npm install && npm run compile && vsce package --out .extensions",
+    "vsc-install": "ts-node ./tools/vsc-install.ts .extensions"
   },
   "devDependencies": {
     "@types/mocha": "^10.0.6",
@@ -59,7 +80,7 @@
     "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "npm-run-all": "^4.1.5",
-    "semver": "^7.6.2",
+    "prettier": "^3.2.5",
     "ts-node": "^10.9.2",
     "typescript": "^5.4.5"
   }
