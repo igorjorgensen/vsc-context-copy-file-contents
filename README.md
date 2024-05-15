@@ -1,71 +1,90 @@
-# context-copy-file-contents README
+# Context Copy File Contents
 
-This is the README for your extension "context-copy-file-contents". After writing up a brief description, we recommend including the following sections.
+Right click a folder in the explorer and copy the content of all TypeScript and JavaScript files within that folder to the clipboard.
 
 ## Features
 
-Describe specific features of your extension including screenshots of your extension in action. Image paths are relative to this README file.
+- Adds a context menu item to folders in the VSCode explorer.
+- Copies the content of all `.ts` and `.js` files in the selected folder to the clipboard.
+- Each file's content is prefixed with a comment indicating its path.
 
-For example if there is an image subfolder under your extension project workspace:
+## Installation
 
-\!\[feature X\]\(images/feature-x.png\)
+1. **Install from VSCode Marketplace**
 
-> Tip: Many popular extensions utilize animations. This is an excellent way to show off your extension! We recommend short, focused animations that are easy to follow.
+   - Search for `Context Copy File Contents` in the Extensions view (Ctrl+Shift+X).
+   - Click Install.
 
-## Requirements
+2. **Build and Install from Source**
+   - Clone this repository:
+     'git clone https://github.com/igorjorgensen/vsc-context-copy-file-contents'
+   - Navigate to the extension directory:
+     'cd vsc-context-copy-file-contents'
+   - Install dependencies:
+     'npm install'
+   - Compile the extension:
+     'npm run compile'
+   - Open the extension in VSCode:
+     'code .'
+   - Press `F5` to run the extension in a new VSCode window.
 
-If you have any requirements or dependencies, add a section describing those and how to install and configure them.
+## Usage
 
-## Extension Settings
+1. Right-click on any folder in the VSCode explorer.
+2. Select `Copy content to clipboard` from the context menu.
+3. The content of all `.ts` and `.js` files in the selected folder will be copied to your clipboard.
 
-Include if your extension adds any VS Code settings through the `contributes.configuration` extension point.
+## Development
 
-For example:
+### Prerequisites
 
-This extension contributes the following settings:
+- Node.js
+- npm
 
-* `myExtension.enable`: Enable/disable this extension.
-* `myExtension.thing`: Set to `blah` to do something.
+### Setup
 
-## Known Issues
+1. Clone the repository:
+   'git clone https://github.com/igorjorgensen/vsc-context-copy-file-contents'
+2. Navigate to the extension directory:
+   'cd vsc-context-copy-file-contents'
+3. Install dependencies:
+   'npm install'
 
-Calling out known issues can help limit users opening duplicate issues against your extension.
+### Build
 
-## Release Notes
+- Compile the extension:
+  'npm run compile'
 
-Users appreciate release notes as you update your extension.
+### Run
 
-### 1.0.0
+- Open the extension in VSCode:
+  'code .'
+- Press `F5` to open a new VSCode window with the extension loaded.
 
-Initial release of ...
+## Contributing
 
-### 1.0.1
+Feel free to submit issues and pull requests.
 
-Fixed issue #.
+## License
 
-### 1.1.0
+MIT
 
-Added features X, Y, and Z.
+## Author
+
+Igor Jorgensen
 
 ---
 
-## Following extension guidelines
+### Example
 
-Ensure that you've read through the extensions guidelines and follow the best practices for creating your extension.
+Here's a quick example of what the output might look like when copying the content of files from a folder:
 
-* [Extension Guidelines](https://code.visualstudio.com/api/references/extension-guidelines)
+'
+// path/to/file1.ts
+console.log('File 1');
 
-## Working with Markdown
+// path/to/file2.js
+console.log('File 2');
+'
 
-You can author your README using Visual Studio Code. Here are some useful editor keyboard shortcuts:
-
-* Split the editor (`Cmd+\` on macOS or `Ctrl+\` on Windows and Linux).
-* Toggle preview (`Shift+Cmd+V` on macOS or `Shift+Ctrl+V` on Windows and Linux).
-* Press `Ctrl+Space` (Windows, Linux, macOS) to see a list of Markdown snippets.
-
-## For more information
-
-* [Visual Studio Code's Markdown Support](http://code.visualstudio.com/docs/languages/markdown)
-* [Markdown Syntax Reference](https://help.github.com/articles/markdown-basics/)
-
-**Enjoy!**
+This output will be copied to your clipboard when you use the `Copy content to clipboard` option.

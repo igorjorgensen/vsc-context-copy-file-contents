@@ -1,6 +1,6 @@
 # Change Log
 
-All notable changes to the "context-copy-file-contents" extension will be documented in this file.
+All notable changes to the "mds-icons-vsc-toolkit" extension will be documented in this file.
 
 Check [Keep a Changelog](http://keepachangelog.com/) for recommendations on how to structure this file.
 
