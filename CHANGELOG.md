@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.0] - 2024-05-16
+
+### Added
+
+- New configuration `copyFolderContent.minimize` to remove all whitespaces from the copied text to conserve space in clipboard.
+
 ## [1.1.0] - 2024-05-16
 
 ### Added

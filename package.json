@@ -1,14 +1,14 @@
 {
   "name": "context-copy-file-contents",
-  "displayName": "Context Copy File Contents",
-  "description": "Right click a folder and copy all file contents into clipboard",
+  "displayName": "Copy File Contents To Clipboard",
+  "description": "Right click folder(s)/file(s) and copy all file contents into clipboard",
   "publisher": "NextGenSolutions",
   "icon": "assets/next-gen-logo.png",
   "author": {
     "name": "Igor Szyporyn",
     "email": "igor.szyporyn@gmail.com"
   },
-  "version": "1.1.0",
+  "version": "1.2.0",
   "repository": {
     "url": "https://github.com/igorjorgensen/vsc-context-copy-file-contents"
   },
@@ -38,7 +38,7 @@
     },
     "configuration": {
       "type": "object",
-      "title": "Copy Folder Content Configuration",
+      "title": "Copy File Contents To Clipboard Configuration",
       "properties": {
         "copyFolderContent.include": {
           "type": "array",
@@ -79,6 +79,11 @@
           "type": "boolean",
           "default": true,
           "description": "Include file metadata (size, last modified date) in the header."
+        },
+        "copyFolderContent.minimize": {
+          "type": "boolean",
+          "default": false,
+          "description": "Remove all whitespaces to maximize how much text can be copied to clipboard."
         }
       }
     }
@@ -108,6 +113,7 @@
     "@typescript-eslint/parser": "^7.7.1",
     "@vscode/test-cli": "^0.0.9",
     "@vscode/test-electron": "^2.3.9",
+    "@vscode/vsce": "^2.26.1",
     "esbuild": "^0.20.2",
     "eslint": "^8.57.0",
     "npm-run-all": "^4.1.5",

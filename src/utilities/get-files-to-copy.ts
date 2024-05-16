@@ -2,8 +2,8 @@ import ignore from "ignore";
 import * as path from "path";
 import * as vscode from "vscode";
 import { getAllFiles } from "./get-all-files";
-import { loadGitignore } from "./load-gitignore";
 import { getConfig } from "./get-config";
+import { loadGitignore } from "./load-gitignore";
 
 export type GetFilesToCopyProps = {
   files?: string[];

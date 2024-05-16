@@ -1,6 +1,6 @@
 import * as fs from "fs/promises";
-import * as path from "path";
 import ignore from "ignore";
+import * as path from "path";
 
 export async function loadGitignore(dirPath: string) {
   try {

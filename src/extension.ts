@@ -4,8 +4,8 @@ import { copyToClipboard } from "./utilities/copy-to-clipboard";
 import { getFilesToCopy } from "./utilities/get-files-to-copy";
 import { getMaxContentSize } from "./utilities/get-max-content-size";
 import { handleError } from "./utilities/handle-error";
-import { normalizeUris } from "./utilities/normalize-uris";
 import { handleInfo } from "./utilities/handle-info";
+import { normalizeUris } from "./utilities/normalize-uris";
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(

@@ -1,9 +1,9 @@
-import * as vscode from "vscode";
-import * as path from "path";
 import * as fs from "fs/promises";
-import { loadGitignore } from "./load-gitignore";
 import ignore from "ignore";
+import * as path from "path";
+import * as vscode from "vscode";
 import { getConfig } from "./get-config";
+import { loadGitignore } from "./load-gitignore";
 
 export async function normalizeUris(uris: vscode.Uri[]) {
   let files: string[] = [];

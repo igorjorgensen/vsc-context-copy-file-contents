@@ -64,6 +64,18 @@ Default:
 }
 ```
 
+### `copyFolderContent.minimize`
+
+Specifies whether to remove all whitespaces from the copied text to conserve space in clipboard.
+
+Default:
+
+```json
+{
+  "copyFolderContent.minimize": true
+}
+```
+
 ### `copyFolderContent.gitignore`
 
 Specifies whether to respect .gitignore rules when copying folder contents.

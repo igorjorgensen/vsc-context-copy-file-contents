@@ -9,5 +9,6 @@ export function getConfig() {
     removeComments: config.get<boolean>("removeComments", false),
     gitignore: config.get<boolean>("gitignore", true),
     includeMetadata: config.get<boolean>("includeMetadata", false),
+    minimize: config.get<boolean>("minimize", false),
   };
 }
