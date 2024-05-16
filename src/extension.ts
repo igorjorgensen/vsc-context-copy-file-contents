@@ -1,106 +1,55 @@
 import * as vscode from "vscode";
-import * as fs from "fs/promises";
-import * as path from "path";
-import { spawn } from "child_process";
-
-// Function to get all files with specified extensions in a directory recursively
-async function getAllFiles(
-  dirPath: string,
-  extensions: string[],
-  arrayOfFiles: string[] = []
-): Promise<string[]> {
-  try {
-    const files = await fs.readdir(dirPath);
-
-    for (const file of files) {
-      const filePath = path.join(dirPath, file);
-      const stat = await fs.stat(filePath);
-
-      if (stat.isDirectory()) {
-        arrayOfFiles = await getAllFiles(filePath, extensions, arrayOfFiles);
-      } else if (extensions.some((ext) => file.endsWith(ext))) {
-        arrayOfFiles.push(filePath);
-      }
-    }
-  } catch (error: any) {
-    vscode.window.showErrorMessage(`Error reading directory: ${error.message}`);
-  }
-
-  return arrayOfFiles;
-}
-
-// Function to read the content of all files and concatenate them with their paths
-async function concatenateFilesContent(
-  rootDir: string,
-  files: string[]
-): Promise<string> {
-  let content = "";
-
-  for (const file of files) {
-    try {
-      const fileContent = await fs.readFile(file, "utf8");
-      const relativePath = path.relative(rootDir, file);
-      content += `// ${relativePath}\n${fileContent}\n`;
-    } catch (error: any) {
-      vscode.window.showErrorMessage(
-        `Error reading file: ${file} - ${error.message}`
-      );
-    }
-  }
-
-  return content;
-}
-
-// Function to copy content to clipboard
-async function copyToClipboard(content: string): Promise<void> {
-  try {
-    const platform = process.platform;
-    const copyCommand =
-      platform === "win32"
-        ? "clip"
-        : platform === "darwin"
-          ? "pbcopy"
-          : "xclip -selection clipboard";
-    const proc = spawn(copyCommand, { shell: true });
-
-    proc.stdin.write(content);
-    proc.stdin.end();
-  } catch (error: any) {
-    vscode.window.showErrorMessage(
-      `Error copying to clipboard: ${error.message}`
-    );
-  }
-}
+import { concatenateFilesContent } from "./utilities/concatenate-files-content";
+import { copyToClipboard } from "./utilities/copy-to-clipboard";
+import { getFilesToCopy } from "./utilities/get-files-to-copy";
+import { getMaxContentSize } from "./utilities/get-max-content-size";
+import { handleError } from "./utilities/handle-error";
+import { normalizeUris } from "./utilities/normalize-uris";
+import { handleInfo } from "./utilities/handle-info";
 
 export function activate(context: vscode.ExtensionContext) {
   let disposable = vscode.commands.registerCommand(
     "extension.copyFolderContent",
-    async (uri: vscode.Uri) => {
-      const dirPath = uri.fsPath;
-      const config = vscode.workspace.getConfiguration("copyFolderContent");
-      const extensions = config.get<string[]>("fileExtensions", [".js", ".ts"]);
+    async (uri: vscode.Uri, _uris?: vscode.Uri[]) => {
+      const uris = _uris || [uri];
+      const maxContentSize = getMaxContentSize({}); // Get the max content size from config
 
       try {
-        const stat = await fs.stat(dirPath);
+        // Normalize URIs to file and folder paths
+        const { files, folders } = await normalizeUris(uris);
 
-        if (!stat.isDirectory()) {
-          vscode.window.showErrorMessage("Selected path is not a directory.");
+        // Check if there are no files or folders to process
+        if (files.length === 0 && folders.length === 0) {
+          vscode.window.showErrorMessage(
+            "No files or folders to copy. The selected items may be ignored by .gitignore or exclude patterns."
+          );
           return;
         }
 
-        const files = await getAllFiles(dirPath, extensions);
-        const concatenatedContent = await concatenateFilesContent(
-          dirPath,
-          files
-        );
-        await copyToClipboard(concatenatedContent);
+        // Get all files to copy based on the selected resources
+        const filesToCopy = await getFilesToCopy({ files, folders });
 
-        const folderName = path.basename(dirPath);
-        vscode.window.showInformationMessage(
-          `Content from ${files.length} files in folder '${folderName}' copied to clipboard.`
+        // Concatenate contents of all collected files
+        let content = await concatenateFilesContent({
+          files: filesToCopy,
+        });
+
+        // Check and handle content size limit
+        if (Buffer.byteLength(content, "utf8") > maxContentSize) {
+          vscode.window.showErrorMessage(
+            "Content exceeds maximum size. Only partial content copied."
+          );
+          content = content.slice(0, maxContentSize); // Trim content to max size
+        }
+
+        // Copy the content to the clipboard
+        await copyToClipboard({ content });
+
+        handleInfo(
+          `Content from ${filesToCopy.length} files copied to clipboard.`
         );
       } catch (error: any) {
-        vscode.window.showErrorMessage(`Error: ${error.message}`);
+        handleError({ error });
       }
     }
   );

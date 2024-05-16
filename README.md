@@ -2,98 +2,118 @@
 
 ## Description
 
-The **Context Copy File Contents** extension for Visual Studio Code allows you to right-click a folder and copy the contents of all `.ts`, `.js`, `.jsx`, and `.tsx` files within that folder into the clipboard. The content is prefixed with the relative file path from the selected folder.
+The Context Copy File Contents extension allows you to copy the contents of files within a folder or selected files to the clipboard directly from the VS Code context menu. This is particularly useful for quickly sharing code snippets or combining multiple files' contents into one clipboard action.
 
 ## Features
 
-- Right-click on a folder in the VS Code Explorer and select "Copy File Contents To Clipboard" to copy the contents of all relevant files in the folder to the clipboard.
-- Configurable file extensions to specify which file types to include when copying content.
-
-## Installation
-
-1. Download and install the extension from the [Visual Studio Code Marketplace](https://marketplace.visualstudio.com/).
-2. Alternatively, you can clone the repository and build the extension yourself.
+- **Copy Folder Content**: Right-click a folder and select 'Copy File Contents To Clipboard' to copy the contents of all files within the folder that match specified glob patterns.
+- **Copy Single File**: Right-click a single file and select 'Copy File Contents To Clipboard' to copy the content of the file to the clipboard.
+- **Copy Multiple Selections**: Right-click multiple selected files or folders and select 'Copy File Contents To Clipboard' to copy the contents of all selected items.
 
 ## Configuration
 
-You can configure the file extensions to include when copying folder contents. The default extensions are `.js`, `.ts`, `.jsx`, and `.tsx`.
+### `copyFolderContent.include`
 
-To change the configuration:
+Specifies the glob patterns to include when copying folder contents.
 
-1. Open VS Code settings (`Ctrl + ,` or `Cmd + ,`).
-2. Search for `Copy Folder Content`.
-3. Modify the `File Extensions` setting to include the extensions you want.
+Default:
+
+```json
+{
+  "copyFolderContent.include": ["**/*.{js,ts,jsx,tsx}"]
+}
+```
+
+### `copyFolderContent.exclude`
+
+Specifies the glob patterns to exclude when copying folder contents.
+
+Default:
+
+```json
+{
+  "copyFolderContent.exclude": ["node_modules"]
+}
+```
+
+### `copyFolderContent.maxContentSize`
+
+Specifies the maximum content size (in bytes) to copy to the clipboard.
+
+Default:
+
+```json
+{
+  "copyFolderContent.maxContentSize": 1048576
+}
+```
+
+### `copyFolderContent.removeComments`
+
+Specifies whether to remove comments from the copied content.
+
+Default:
+
+```json
+{
+  "copyFolderContent.removeComments": false
+}
+```
+
+### `copyFolderContent.gitignore`
+
+Specifies whether to respect .gitignore rules when copying folder contents.
+
+Default:
+
+```json
+{
+  "copyFolderContent.gitignore": true
+}
+```
+
+### `copyFolderContent.includeMetadata`
+
+Specifies whether to include file metadata (size, last modified date) in the header.
+
+Default:
+
+```json
+{
+  "copyFolderContent.includeMetadata": false
+}
+```
+
+## Changelog
+
+See [CHANGELOG.md](CHANGELOG.md) for details.
+
+## Installation
+
+1. Install the extension from the VS Code marketplace.
+2. Configure the extension settings in your `settings.json` file if necessary.
 
 ## Usage
 
-1. Right-click on a folder in the VS Code Explorer.
-2. Select `Copy File Contents To Clipboard`.
-3. The content of all files with the specified extensions in the selected folder will be copied to the clipboard, prefixed with their relative paths.
+1. **Copy Folder Content**:
 
-## Example
+   - Right-click on a folder in the VS Code Explorer.
+   - Select 'Copy File Contents To Clipboard'.
 
-Given a folder structure:
+2. **Copy Single File**:
 
-```
-src/
-├── john/
-│ └── peter.ts
-└── jane/
-└── doe.js
-```
+   - Right-click on a file in the VS Code Explorer.
+   - Select 'Copy File Contents To Clipboard'.
 
-If you right-click on the `src` folder and select `Copy File Contents To Clipboard`, the clipboard content will be:
-
-```
-// john/peter.ts
-// [Content of peter.ts]
-
-// jane/doe.js
-// [Content of doe.js]
-```
-
-## Development
-
-To build and install the extension locally:
-
-1. Clone the repository:
-
-   ```sh
-   git clone https://github.com/igorjorgensen/vsc-context-copy-file-contents.git
-   cd vsc-context-copy-file-contents
-   ```
-
-2. Install dependencies:
-
-   ```sh
-   npm install
-   ```
-
-3. Compile the extension:
-
-   ```sh
-   npm run compile
-   ```
-
-4. Package the extension:
-
-   ```sh
-   npm run package
-   ```
-
-5. Install the extension:
-   ```sh
-   code --install-extension ./<your-extension-name>.vsix
-   ```
+3. **Copy Multiple Selections**:
+   - Select multiple files or folders in the VS Code Explorer.
+   - Right-click on one of the selected items.
+   - Select 'Copy File Contents To Clipboard'.
 
 ## Contributing
 
-Contributions are welcome! Please open an issue or submit a pull request with your changes.
+Feel free to contribute to the project by submitting issues or pull requests. Please follow the code style and guidelines outlined in the repository.
 
 ## License
 
-This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
-
-## Repository
-
-[GitHub Repository](https://github.com/igorjorgensen/vsc-context-copy-file-contents)
+This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for details.
