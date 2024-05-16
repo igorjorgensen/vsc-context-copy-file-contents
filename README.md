@@ -1,3 +1,7 @@
+<p align="center">
+  <img src="./assets/readme-title.png" width="600" />
+</p>
+
 # Context Copy File Contents
 
 ## Description
