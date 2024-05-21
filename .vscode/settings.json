@@ -13,5 +13,6 @@
   "editor.formatOnSave": true,
   "editor.defaultFormatter": "esbenp.prettier-vscode",
   "copyFolderContent.includeMetadata": true,
-  "copyFolderContent.removeComments": true
+  "copyFolderContent.removeComments": true,
+  "copyFolderContent.minimize": false
 }

@@ -1,5 +1,11 @@
 # Changelog
 
+## [1.2.1] - 2024-05-21
+
+### Fixed
+
+- Configuration `copyFolderContent.minimize` now removes linebreaks instead.
+
 ## [1.2.0] - 2024-05-16
 
 ### Added

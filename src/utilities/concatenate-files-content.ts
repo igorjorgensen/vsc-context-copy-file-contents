@@ -16,15 +16,12 @@ export async function concatenateFilesContent({
     throw new Error("Files are required");
   }
 
-  // Get the root directory of the workspace
   const rootDir = vscode.workspace.workspaceFolders
     ? vscode.workspace.workspaceFolders[0].uri.fsPath
     : "";
 
-  // Check if comments should be removed
   const { removeComments, includeMetadata, minimize } = getConfig();
 
-  // Read all files in parallel
   const fileReadPromises = files.map(async (file) => {
     const [fileContent, stats] = await Promise.all([
       fs.readFile(file, "utf8"),
@@ -46,23 +43,21 @@ export async function concatenateFilesContent({
     }
 
     if (minimize) {
-      processedContent = processedContent.replace(/\s+/g, "");
+      processedContent = processedContent.replace(/\n+/g, "");
     }
 
     const relativePath = path.relative(rootDir, file);
-    const extension = path.extname(file).slice(1); // Get the file extension without the dot
+    const extension = path.extname(file).slice(1);
     const syntax = extensionToSyntax({ extension });
 
-    content += `\`\`\`${syntax}\n// File: ${relativePath}\n`;
+    content += `\`\`\`${syntax}\n`;
 
     if (includeMetadata) {
-      content += `// Size: ${(stats.size / 1024).toFixed(1)} KB\n`;
-      content += `// Last Modified: ${stats.mtime.toISOString()}\n`;
+      content += `File: ${relativePath}\nSize: ${stats.size} bytes\nLast Modified: ${stats.mtime.toISOString()}\n`;
     }
 
     content += `${processedContent}\n\`\`\``;
 
-    // Add a line break between file blocks, except for the last one
     if (i < fileContents.length - 1) {
       content += "\n\n";
     }
